@@ -113,4 +113,57 @@ def compute_style_cost(style_image_output, generated_image_output, STYLE_LAYERS=
     return J_style
 
 
+# Cost Function - Total cost
+def total_cost(J_content, J_style, alpha = 10, beta = 40):
+    """
+    Computes the total cost function
+    
+    Arguments:
+    J_content -- content cost coded above
+    J_style -- style cost coded above
+    alpha -- hyperparameter weighting the importance of the content cost
+    beta -- hyperparameter weighting the importance of the style cost
+    
+    Returns:
+    J -- total cost as defined by the formula above.
+    """
+
+    J = alpha * J_content + beta * J_style
+
+    return J
+
+
+# helpful functions for clipping and converting tensor to image
+def clip_0_1(image):
+    """
+    Truncate all the pixels in the tensor to be between 0 and 1
+    
+    Arguments:
+    image -- Tensor
+    J_style -- style cost coded above
+
+    Returns:
+    Tensor
+    """
+    return tf.clip_by_value(image, clip_value_min=0.0, clip_value_max=1.0)
+
+def tensor_to_image(tensor):
+    """
+    Converts the given tensor into a PIL image
+    
+    Arguments:
+    tensor -- Tensor
+    
+    Returns:
+    Image: A PIL image
+    """
+    tensor = tensor * 255
+    tensor = np.array(tensor, dtype=np.uint8)
+    if np.ndim(tensor) > 3:
+        assert tensor.shape[0] == 1
+        tensor = tensor[0]
+    return Image.fromarray(tensor)
+
+
+
 
