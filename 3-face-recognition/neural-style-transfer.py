@@ -33,4 +33,20 @@ def compute_content_cost(content_output, generated_output):
     return J_content
 
 
+# Gram matrix to compute the Style matrix by multiplying the "unrolled" filter matrix with its transpose
+def gram_matrix(A):
+    """
+    Argument:
+    A -- matrix of shape (n_C, n_H*n_W)
+    
+    Returns:
+    GA -- Gram matrix of A, of shape (n_C, n_C)
+    """  
+
+    GA = tf.matmul(A, tf.transpose(A))
+
+    return GA
+
+
+
 
