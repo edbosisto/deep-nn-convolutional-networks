@@ -77,5 +77,40 @@ def compute_layer_style_cost(a_S, a_G):
     return J_style_layer
 
 
+# Compute style cost
+def compute_style_cost(style_image_output, generated_image_output, STYLE_LAYERS=STYLE_LAYERS):
+    """
+    Computes the overall style cost from several chosen layers
+    
+    Arguments:
+    style_image_output -- our tensorflow model
+    generated_image_output --
+    STYLE_LAYERS -- A python list containing:
+                        - the names of the layers we would like to extract style from
+                        - a coefficient for each of them
+    
+    Returns: 
+    J_style -- tensor representing a scalar value, style cost defined above by equation (2)
+    """
+    
+    # initialize the overall style cost
+    J_style = 0
+
+    # Set a_S to be the hidden layer activation from the layer we have selected.
+    # The last element of the array contains the content layer image, which must not be used.
+    a_S = style_image_output[:-1]
+
+    # Set a_G to be the output of the choosen hidden layers.
+    # The last element of the list contains the content layer image which must not be used.
+    a_G = generated_image_output[:-1]
+    for i, weight in zip(range(len(a_S)), STYLE_LAYERS):  
+        # Compute style_cost for the current layer
+        J_style_layer = compute_layer_style_cost(a_S[i], a_G[i])
+
+        # Add weight * J_style_layer of this layer to overall style cost
+        J_style += weight[1] * J_style_layer
+
+    return J_style
+
 
 
