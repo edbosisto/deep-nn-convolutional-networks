@@ -230,3 +230,15 @@ def train_step(generated_image):
     # generated_image.assign(clip_0_1(generated_image))
     return J
 
+
+# Train the model
+epochs = 2501
+for i in range(epochs):
+    train_step(generated_image)
+    if i % 250 == 0:
+        print(f"Epoch {i} ")
+    if i % 250 == 0:
+        image = tensor_to_image(generated_image)
+        imshow(image)
+        image.save(f"output/image_{i}.jpg")
+        plt.show() 
