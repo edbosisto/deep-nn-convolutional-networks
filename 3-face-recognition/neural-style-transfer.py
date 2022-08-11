@@ -2,7 +2,10 @@ import numpy as np
 import tensorflow as tf
 
 
-# Compute content cost. Takes inputs of two tensors and outputs the J_content
+# Implement Neural Style transfer to create your own artwork. 
+# A "Content" image will be merged with a "Style" image to output a final "Generated Image"
+
+# Compute content image cost. Takes inputs of two tensors and outputs the J_content
 def compute_content_cost(content_output, generated_output):
     """
     Computes the content cost
@@ -28,3 +31,6 @@ def compute_content_cost(content_output, generated_output):
     J_content = 1/(4*n_H*n_W*n_C)*(tf.reduce_sum(tf.square(tf.subtract(a_C_unrolled, a_G_unrolled))))
     
     return J_content
+
+
+
