@@ -67,22 +67,22 @@ def rnn_forward(x, a0, parameters):
     n_x, m, T_x = x.shape
     n_y, n_a = parameters["Wya"].shape
     
-    # initialize "a" and "y_pred" with zeros (≈2 lines)
+    # initialize "a" and "y_pred" with zeros
     a = np.zeros((n_a, m, T_x))
     y_pred = np.zeros((n_y, m, T_x))
     
-    # Initialize a_next (≈1 line)
+    # Initialize a_next
     a_next = a0
     
     # loop over all time-steps
     for t in range(T_x):
-        # Update next hidden state, compute the prediction, get the cache (≈1 line)
+        # Update next hidden state, compute the prediction, get the cache
         a_next, yt_pred, cache = rnn_cell_forward(x[:,:,t], a_next, parameters)
-        # Save the value of the new "next" hidden state in a (≈1 line)
+        # Save the value of the new "next" hidden state in a
         a[:,:,t] = a_next
-        # Save the value of the prediction in y (≈1 line)
+        # Save the value of the prediction in y
         y_pred[:,:,t] = yt_pred
-        # Append "cache" to "caches" (≈1 line)
+        # Append "cache" to "caches"
         caches.append(None)
     
     # store values needed for backward propagation in cache
